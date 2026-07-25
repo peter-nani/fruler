@@ -1,12 +1,22 @@
 from fastapi import FastAPI
 import uvicorn
-
 from routers.root import router as root_router
 from routers.student import router as student_router
+from contextlib import asynccontextmanager
+from sqlmodel import SQLModel
+from database.engine import engine
+import models
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    SQLModel.metadata.create_all(engine)
+    yield
+
 
 app = FastAPI(
     title="Campus Management System",
     version="1.0.0",
+    lifespan=lifespan,
 )
 
 app.include_router(student_router)
