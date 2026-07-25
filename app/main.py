@@ -1,11 +1,16 @@
 from fastapi import FastAPI
 import uvicorn
 
-app = FastAPI()
+from routers.root import router as root_router
+from routers.student import router as student_router
 
-@app.get("/")
-def hello(name)->str:
-    return f"hello {name}"
+app = FastAPI(
+    title="Campus Management System",
+    version="1.0.0",
+)
+
+app.include_router(student_router)
+app.include_router(root_router)
 
 
 if __name__=="__main__":
