@@ -3,11 +3,19 @@ from schemas.student_schema import StudentCreate, StudentResponse
 from database.session import get_session
 from sqlmodel import Session, select
 from models.student import Student
-
+from repositories.student_repository import StudentRepository
+from dependencies.student import get_student_repository
 router = APIRouter(
     prefix="/student",
     tags = ["students"],
 )
+
+@router.get("/students_repository_all")
+def get_students(
+    repository: StudentRepository = Depends(get_student_repository)
+):
+    print("Creating StudentRepository")
+    return repository.get_all()
 
 @router.get("/students_all")
 def get_all_students(session: Session = Depends(get_session)):
