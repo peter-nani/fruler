@@ -1,6 +1,7 @@
 from sqlmodel import Session, select
 
 from models.student import Student
+from exceptions.student_exception import StudentNotFoundException
 
 
 class StudentRepository:
@@ -30,3 +31,11 @@ class StudentRepository:
     def delete(self, student: Student) -> None:
         self.session.delete(student)
         self.session.commit()
+
+    def get_student(self, student_id: int):
+        student = self.get(student_id)
+
+        if student is None:
+            raise StudentNotFoundException(student_id)
+
+        return student

@@ -17,6 +17,16 @@ def get_students(
     print("Creating StudentRepository")
     return repository.get_all()
 
+@router.get("/get_a_student/{stu_id}")
+def get_students(
+    stu_id:int,
+    repository: StudentRepository = Depends(get_student_repository),
+):
+    print("getting data from StudentRepository")
+    return repository.get_student(stu_id)
+
+
+
 @router.get("/students_all")
 def get_all_students(session: Session = Depends(get_session)):
     statement = select(Student)
