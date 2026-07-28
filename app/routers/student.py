@@ -5,6 +5,8 @@ from sqlmodel import Session, select
 from models.student import Student
 from repositories.student_repository import StudentRepository
 from dependencies.student import get_student_repository
+from services.student_service import StudentService
+from dependencies.student import get_student_service
 router = APIRouter(
     prefix="/student",
     tags = ["students"],
@@ -20,10 +22,10 @@ def get_students(
 @router.get("/get_a_student/{stu_id}")
 def get_students(
     stu_id:int,
-    repository: StudentRepository = Depends(get_student_repository),
+    service: StudentService = Depends(get_student_service),
 ):
     print("getting data from StudentRepository")
-    return repository.get_student(stu_id)
+    return service.get_student(stu_id)
 
 
 

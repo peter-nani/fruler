@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from sqlmodel import SQLModel
 from database.engine import engine
 import models
+from exceptions.handlers import register_exception_handlers
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -18,6 +19,8 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
 )
+
+register_exception_handlers(app)
 
 app.include_router(student_router)
 app.include_router(root_router)
